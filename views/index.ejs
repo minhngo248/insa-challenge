@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    <%=title%>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+  <h1>
+    <%=title%>
+  </h1>
+
+  <div>Veuillez saisir le numéro de téléphone</div><br />
+  <form method="post" action="/">
+    <label for="telephone">Numéro de téléphone:</label>
+    <input type="text" id="telephone" name="telephone" /><br /><br />
+    <input type="submit" value="Valider" id="submitButton" />
+  </form>
+
+  <div style="display: none;" id="infos">
+    <h2>Vérifier votre information</h2>
+    <ul>
+      <li>Name: <div id="namePlayer"><%=namePlayer%></div></li>
+      <li>Class: </li>
+      <li>Numéro de tel: </li>
+    </ul>
+    <a id="suiteButton" href="/player?id=<%=namePlayer%>">Suivant</a>
+  </div>
+  
+
+  <script>
+    if (document.getElementById('namePlayer').innerHTML === '') {
+      document.getElementById('infos').style.display = 'none';
+    } else {
+      document.getElementById('infos').style.display = 'block';
+    }
+  </script>
+</body>
+
+</html>
