@@ -11,6 +11,7 @@ var usersRouter = require('./routes/users');
 var playersRouter = require('./routes/playersRouter');
 var playerRouter = require('./routes/playerRouter');
 var cureRoomRouter = require('./routes/cureRoomRouter');
+var adminRouter = require('./routes/adminRouter');
 
 var app = express();
 
@@ -29,9 +30,9 @@ mongoose.connect(
     retryWrites: false
   })
   .then(() => console.log('Connection to CosmosDB successful'))
-  .catch((err) => console.error('Error connection to DB: ' + err));
+  .catch((err) => console.error('Error connection to DB: ' + err)); 
 
-/*mongoose.set('strictQuery', false);
+/* mongoose.set('strictQuery', false);
 mongoose.connect(
   "mongodb://127.0.0.1:27017/insa-game",
   {
@@ -39,7 +40,7 @@ mongoose.connect(
     useNewUrlParser: true,
   })
   .then(() => console.log('Connection to MongoDB successful'))
-  .catch((err) => console.error('Error connection to DB: ' + err));*/
+  .catch((err) => console.error('Error connection to DB: ' + err)); */
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -58,6 +59,7 @@ app.use('/users', usersRouter);
 app.use('/api/players', playersRouter);
 app.use('/api/player', playerRouter);
 app.use('/api/rooms', cureRoomRouter);
+app.use('/api/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
