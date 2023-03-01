@@ -11,7 +11,6 @@ var usersRouter = require('./routes/users');
 var playersRouter = require('./routes/playersRouter');
 var playerRouter = require('./routes/playerRouter');
 var cureRoomRouter = require('./routes/cureRoomRouter');
-var playerViewRouter = require('./routes/playerViewRouter');
 
 var app = express();
 
@@ -55,7 +54,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/player', playerViewRouter);
 
 app.use('/api/players', playersRouter);
 app.use('/api/player', playerRouter);
