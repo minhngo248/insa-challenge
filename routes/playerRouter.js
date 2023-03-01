@@ -7,9 +7,9 @@ router.post('/', async function (req, res, next) {
   try {
     const findedPlayer = await player.findPlayerByTelephone(telephone);
     if (findedPlayer === null) {
-      res.status(404).json('Not found');
+      res.json({"result": null});
     } else {
-      res.json(findedPlayer);
+      res.json({"result": findedPlayer});
     }
   } catch (err) {
     console.error(`Error while finding player`, err.message);
