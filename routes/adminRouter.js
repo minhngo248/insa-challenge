@@ -11,6 +11,8 @@ router.post('/', async function (req, res, next) {
         if (findedAdmin === null) {
             res.json({ "result": null });
         } else {
+            var session = req.session;
+            session.adminOnline = true;
             res.json({ "result": findedAdmin});
         }
     } catch (err) {
@@ -18,5 +20,18 @@ router.post('/', async function (req, res, next) {
         next(err);
     }
 });
+
+router.get('/', async function (req, res, next) {
+    try {
+      if (req.session.adminOnline) {
+        res.json({"adminOnline": true});
+      } else {
+        res.json({"adminOnline": false});
+      }
+    } catch (err) {
+      console.error(`HTTP error while getting admin `, err.message);
+      next(err);
+    }
+  });
 
 module.exports = router;
