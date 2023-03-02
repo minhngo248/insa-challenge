@@ -3,7 +3,6 @@ const router = express.Router();
 const players = require('../services/playerService');
 
 router.post('/', async function (req, res, next) {
-  console.log(req.body);
   try {
     res.json(await players.add(req.body));
   } catch (err) {
