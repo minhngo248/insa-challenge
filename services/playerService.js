@@ -53,6 +53,14 @@ async function updateToOfflinePlayer(id) {
     });
 }
 
+async function updateGameRoom(idPlayer, gameRoom) {
+    const filter = { _id : idPlayer };
+    const update = { gameRoom: gameRoom };
+    await Player.findOneAndUpdate(filter, update, {
+        new: true
+    }); 
+}
+
 module.exports = {
     add,
     getAllPlayers,
@@ -60,5 +68,6 @@ module.exports = {
     findPlayerByTelephone,
     findPlayerById,
     updateToOnlinePlayer,
-    updateToOfflinePlayer
+    updateToOfflinePlayer,
+    updateGameRoom
 };

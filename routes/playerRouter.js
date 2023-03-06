@@ -10,7 +10,6 @@ router.post('/', async function (req, res, next) {
       res.json({ "result": null });
     } else {
       var session = req.session;
-      session.playerOnline = true;
       session.playerId = findedPlayer._id;
       res.json({ "result": findedPlayer });
     }
@@ -22,9 +21,8 @@ router.post('/', async function (req, res, next) {
 
 router.get('/:id', async function (req, res, next) {
   try {
-    if (req.session.playerOnline) {
+    if (req.session.playerId) {
       console.log(req.session);
-      player.updateToOnlinePlayer(req.params.id);
       res.json(await player.findPlayerById(req.params.id));
     } else {
       res.status(401).send("<h2>Session time-out</h2>")
