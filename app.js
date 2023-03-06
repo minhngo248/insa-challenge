@@ -13,6 +13,7 @@ var playersRouter = require('./routes/playersRouter');
 var playerRouter = require('./routes/playerRouter');
 var cureRoomRouter = require('./routes/cureRoomRouter');
 var adminRouter = require('./routes/adminRouter');
+var gameRoomRouter = require('./routes/gameRoomRouter');
 var logOutRouter = require('./routes/logOutRouter');
 var sessionsRouter = require('./routes/sessionsRouter');
 
@@ -33,7 +34,7 @@ mongoose.connect(
     retryWrites: false
   })
   .then(() => console.log('Connection to CosmosDB successful'))
-  .catch((err) => console.error('Error connection to DB: ' + err));
+  .catch((err) => console.error('Error connection to DB: ' + err)); 
 
 /*mongoose.set('strictQuery', false);
 mongoose.connect(
@@ -71,10 +72,10 @@ app.use('/users', usersRouter);
 
 app.use('/api/players', playersRouter);
 app.use('/api/player', playerRouter);
-app.use('/api/rooms', cureRoomRouter);
+app.use('/api/curerooms', cureRoomRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/gamerooms', gameRoomRouter)
 app.use('/api/logout', logOutRouter);
-
 app.use('/sessions', sessionsRouter);
 
 // catch 404 and forward to error handler

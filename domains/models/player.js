@@ -5,6 +5,7 @@ const playerSchema = new mongoose.Schema({
     createdDate: Date,
     class: String,
     tel_number: String,
+    gameRoom: Object,
     online: false
 });
 
