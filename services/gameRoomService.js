@@ -26,19 +26,25 @@ async function findGameRoomById(id) {
 async function addPlayerToGameRoom(id, player) {
     const gameRoom = await findGameRoomById(id);
     let listPlayers = gameRoom.listPlayers;
-    var existPlayer = listPlayers.find(p => p._id === player._id);
-    if (existPlayer === undefined) {
-        listPlayers.push(player);
-        const update = {listPlayers: listPlayers};
-        await GameRoom.findByIdAndUpdate(id, update, {
-            new: true
-        });
+    let nbMax = gameRoom.maxPlayers;
+    if (listPlayers.length < nbMax) {
+        var existPlayer = listPlayers.find(p => p._id === player._id);
+        if (existPlayer === undefined) {
+            listPlayers.push(player);
+            const update = { listPlayers: listPlayers };
+            await GameRoom.findByIdAndUpdate(id, update, {
+                new: true
+            });
+        }
+    }
+    else {
+        throw new RangeError("Room is full");
     }
 }
 
-function arrayRemove(arr, value) { 
-    return arr.filter(function(ele){ 
-        return ele._id != value._id; 
+function arrayRemove(arr, value) {
+    return arr.filter(function (ele) {
+        return ele._id != value._id;
     });
 }
 
@@ -49,8 +55,8 @@ async function deletePlayerToGameRoom(idRoom, player) {
     if (!restPlayer) {
         restPlayer = [];
     }
-    
-    const update = {listPlayers: restPlayer};
+
+    const update = { listPlayers: restPlayer };
     await GameRoom.findByIdAndUpdate(idRoom, update, {
         new: true
     });

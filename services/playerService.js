@@ -21,7 +21,8 @@ async function deleteById(id) {
 }
 
 async function findPlayerByTelephone(telephone) {
-    const decodeTel = decodeURIComponent(telephone);
+    var decodeTel = decodeURIComponent(telephone);
+    decodeTel = decodeTel.replace(/ /g, '');
     return new Promise((resolve, reject) => {
         Player.findOne({ tel_number: { $eq: decodeTel } }, (err, doc) => {
             return err ? reject(err) : resolve(doc);

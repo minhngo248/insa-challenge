@@ -22,10 +22,9 @@ router.post('/', async function (req, res, next) {
 router.get('/:id', async function (req, res, next) {
   try {
     if (req.session.playerId) {
-      console.log(req.session);
       res.json(await player.findPlayerById(req.params.id));
     } else {
-      res.status(401).send("<h2>Session time-out</h2>")
+      res.status(401).send("<h2>Session time-out</h2>");
     }
   } catch (err) {
     console.error(`HTTP error while getting player id ${req.params.id} `, err.message);

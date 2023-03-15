@@ -21,7 +21,7 @@ var app = express();
 
 require("dotenv").config();
 // Config of MongoDB connection
-mongoose.set('strictQuery', false);
+/*mongoose.set('strictQuery', false);
 mongoose.connect(
   "mongodb://" + process.env.COSMOSDB_HOST + ":" + process.env.COSMOSDB_PORT + "/" + "insa-game" + "?ssl=true&replicaSet=globaldb",
   {
@@ -34,9 +34,9 @@ mongoose.connect(
     retryWrites: false
   })
   .then(() => console.log('Connection to CosmosDB successful'))
-  .catch((err) => console.error('Error connection to DB: ' + err)); 
+  .catch((err) => console.error('Error connection to DB: ' + err)); */
 
-/*mongoose.set('strictQuery', false);
+mongoose.set('strictQuery', false);
 mongoose.connect(
   "mongodb://127.0.0.1:27017/insa-game",
   {
@@ -44,7 +44,7 @@ mongoose.connect(
     useNewUrlParser: true,
   })
   .then(() => console.log('Connection to MongoDB successful'))
-  .catch((err) => console.error('Error connection to DB: ' + err)); */
+  .catch((err) => console.error('Error connection to DB: ' + err)); 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

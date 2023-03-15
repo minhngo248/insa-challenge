@@ -24,38 +24,59 @@ app.set('port', port);
 
 var httpServer = http.createServer(app);
 
-const io = require("socket.io")(httpServer);
+const io = require("socket.io")(httpServer, {
+  cors: {
+    // or with an array of origins
+    origin: ["http://localhost:3000"],
+    credentials: true
+  }
+});
 
-io.on("connection", (socket) => {
+io.of("/player").on("connection", (socket) => {
   socket.on("sign in", (data, callback) => {
     player.updateToOnlinePlayer(data._id);
+    socket.join("client-login");  
     callback({
       status: "ok"
     });
   });
 
   socket.on("join", async (data, callback) => {
+    socket.to("client-login").emit("update data");
     const room = await gameRoom.findGameRoomById(data.roomId);
-    const sentRoom = { _id : room._id };
-    await gameRoom.addPlayerToGameRoom(data.roomId, data.player);
-    await player.updateGameRoom(data.player._id, sentRoom);
-    socket.join(room);
+    const sentRoom = { _id: room._id, name: room.name };
+    var res = null;
+    try {
+      await gameRoom.addPlayerToGameRoom(data.roomId, data.player);
+      await player.updateGameRoom(data.player._id, sentRoom);
+      socket.join(`game-room-${room.name}`);
 
-    // Emit will send message to the user
-    // who had joined
-    console.log('Player has joined the room');
-    callback();
+      // Emit will send message to the user
+      // who had joined
+      console.log('Player has joined the room');
+      res = "No error";
+      callback(res, null);
+    } catch (err) {
+      callback(res, err);
+    }
   });
 
   socket.on("out room", async (data, callback) => {
+    socket.to("client-login").emit("update data");
+    const room = await gameRoom.findGameRoomById(data.roomId);
     await gameRoom.deletePlayerToGameRoom(data.roomId, data.player);
     await player.updateGameRoom(data.player._id, null);
-
+    socket.leave(`game-room-${room.name}`);
     // Emit will send message to the user
     // who had left
     console.log('Player has left the room');
     callback();
-  })
+  });
+
+  socket.on("client log out", async () => {
+    socket.to("client-login").emit("update data");
+    socket.disconnect();
+  });
 });
 
 /**

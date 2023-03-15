@@ -8,6 +8,15 @@ async function authenticate(username, password) {
     }); 
 }
 
+async function findAdminById(id) {
+    return new Promise((resolve, reject) => {
+        Admin.findById(id, (err, doc) => {
+            return err ? reject(err) : resolve(doc);
+        });
+    });
+}
+
 module.exports = {
-    authenticate
+    authenticate,
+    findAdminById
 };

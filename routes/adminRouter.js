@@ -12,7 +12,7 @@ router.post('/', async function (req, res, next) {
             res.json({ "result": null });
         } else {
             var session = req.session;
-            session.adminOnline = true;
+            session.adminId = findedAdmin._id;
             res.json({ "result": findedAdmin});
         }
     } catch (err) {
@@ -21,12 +21,12 @@ router.post('/', async function (req, res, next) {
     }
 });
 
-router.get('/', async function (req, res, next) {
+router.get('/:id', async function (req, res, next) {
     try {
-      if (req.session.adminOnline) {
-        res.json({"adminOnline": true});
+      if (req.session.adminId) {
+        res.json(await admin.findAdminById(req.params.id));
       } else {
-        res.json({"adminOnline": false});
+        res.status(401).send("<h2>Session time-out</h2>");
       }
     } catch (err) {
       console.error(`HTTP error while getting admin `, err.message);
