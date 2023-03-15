@@ -27,7 +27,7 @@ var httpServer = http.createServer(app);
 const io = require("socket.io")(httpServer, {
   cors: {
     // or with an array of origins
-    origin: ["http://localhost:3000"],
+    origin: ["https://insa-challenge.minhnn.fr", "https://insa-challenge-ui.firebaseapp.com"],
     credentials: true
   }
 });
