@@ -24,7 +24,13 @@ app.set('port', port);
 
 var httpServer = http.createServer(app);
 
-const io = require("socket.io")(httpServer);
+const io = require("socket.io")(httpServer, {
+  cors: {
+    // or with an array of origins
+    origin: ["https://insa-challenge.minhnn.fr", "https://insa-challenge-ui.firebaseapp.com", "http://localhost:3000"],
+    credentials: true
+  }
+});
 
 io.of("/player").on("connection", (socket) => {
   socket.on("sign in", (data, callback) => {
