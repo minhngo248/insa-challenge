@@ -3,7 +3,7 @@ const router = express.Router();
 const player = require('../services/playerService');
 const gameRoom = require('../services/gameRoomService');
 
-router.get('/', async (req, res, next) => {
+router.get('/player', async (req, res, next) => {
   await player.updateToOfflinePlayer(req.session.playerId);
   var findedPlayer = await player.findPlayerById(req.session.playerId);
   if (findedPlayer.gameRoom) {
@@ -11,6 +11,10 @@ router.get('/', async (req, res, next) => {
     await gameRoom.deletePlayerToGameRoom(idRoom, findedPlayer);
     await player.updateGameRoom(findedPlayer._id, null);
   }
+  req.session.destroy();
+});
+
+router.get('/admin', (req, res, next) => {
   req.session.destroy();
 });
 

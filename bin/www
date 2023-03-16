@@ -33,10 +33,12 @@ const io = require("socket.io")(httpServer, {
   }
 });
 
-io.of("/player").on("connection", (socket) => {
-  socket.on("sign in", (data, callback) => {
-    player.updateToOnlinePlayer(data._id);
+io.on("connection", (socket) => {
+  /** Client */
+  socket.on("sign in", async (data, callback) => {
+    await player.updateToOnlinePlayer(data._id);
     socket.join("client-login");  
+    socket.to("big-admin").emit("update data");
     callback({
       status: "ok"
     });
@@ -44,6 +46,7 @@ io.of("/player").on("connection", (socket) => {
 
   socket.on("join", async (data, callback) => {
     socket.to("client-login").emit("update data");
+    socket.to("big-admin").emit("update data");
     const room = await gameRoom.findGameRoomById(data.roomId);
     const sentRoom = { _id: room._id, name: room.name };
     var res = null;
@@ -64,6 +67,7 @@ io.of("/player").on("connection", (socket) => {
 
   socket.on("out room", async (data, callback) => {
     socket.to("client-login").emit("update data");
+    socket.to("big-admin").emit("update data");
     const room = await gameRoom.findGameRoomById(data.roomId);
     await gameRoom.deletePlayerToGameRoom(data.roomId, data.player);
     await player.updateGameRoom(data.player._id, null);
@@ -76,8 +80,19 @@ io.of("/player").on("connection", (socket) => {
 
   socket.on("client log out", async () => {
     socket.to("client-login").emit("update data");
+    socket.to("big-admin").emit("update data");
     socket.disconnect();
   });
+
+  /** Admin */
+  socket.on("big admin sign in", async () => {
+    socket.join("big-admin"); 
+  });
+
+  socket.on("big admin log out", async () => {
+    socket.leave("big-admin");
+    socket.disconnect();
+  });  
 });
 
 /**
