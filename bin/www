@@ -28,6 +28,7 @@ const io = require("socket.io")(httpServer, {
   cors: {
     // or with an array of origins
     origin: ["https://insa-challenge.minhnn.fr", "https://insa-challenge-ui.firebaseapp.com", "http://localhost:3000"],
+    methods: ["GET", "POST"],
     credentials: true
   }
 });
