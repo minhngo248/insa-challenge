@@ -54,9 +54,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors({
-  origin: ["https://insa-challenge.minhnn.fr", "https://insa-challenge-ui.firebaseapp.com", "http://localhost:3000"]
-}));
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 // creating 24 hours from milliseconds
 const oneDay = 1000 * 60 * 60 * 24;

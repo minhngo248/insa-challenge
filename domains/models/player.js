@@ -6,6 +6,7 @@ const playerSchema = new mongoose.Schema({
     class: String,
     tel_number: String,
     gameRoom: Object,
+    score: 0,
     online: false
 });
 
