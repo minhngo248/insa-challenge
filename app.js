@@ -2,7 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var sessions = require('express-session'); 
+var sessions = require('express-session');
 var logger = require('morgan');
 var cors = require('cors');
 var mongoose = require('mongoose');
@@ -56,15 +56,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://insa-challenge.minhnn.fr"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 // creating 24 hours from milliseconds
 const oneDay = 1000 * 60 * 60 * 24;
 
 //session middleware
 app.use(sessions({
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-    saveUninitialized: true,
-    cookie: { maxAge: oneDay },
-    resave: true
+  secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+  saveUninitialized: true,
+  cookie: { maxAge: oneDay },
+  resave: true
 }));
 
 app.use('/', indexRouter);
