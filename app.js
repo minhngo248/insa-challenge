@@ -8,7 +8,6 @@ var cors = require('cors');
 var mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var playersRouter = require('./routes/playersRouter');
 var playerRouter = require('./routes/playerRouter');
 var cureRoomRouter = require('./routes/cureRoomRouter');
@@ -34,7 +33,7 @@ mongoose.connect(
     retryWrites: false
   })
   .then(() => console.log('Connection to CosmosDB successful'))
-  .catch((err) => console.error('Error connection to DB: ' + err));
+  .catch((err) => console.error('Error connection to DB: ' + err)); 
 
 /*mongoose.set('strictQuery', false);
 mongoose.connect(
@@ -54,14 +53,14 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://insa-challenge.minhnn.fr",
+    allowedHeaders: "*",
+    allowedMethods: "*",
+  })
+);
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://insa-challenge.minhnn.fr"); // update to match the domain you will make the request from
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 // creating 24 hours from milliseconds
 const oneDay = 1000 * 60 * 60 * 24;
 
@@ -74,7 +73,6 @@ app.use(sessions({
 }));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 app.use('/api/players', playersRouter);
 app.use('/api/player', playerRouter);
