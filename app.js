@@ -55,7 +55,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://insa-challenge.minhnn.fr",
+    origin: "*",
     allowedHeaders: "*",
     allowedMethods: "*",
   })
